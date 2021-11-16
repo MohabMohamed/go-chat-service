@@ -14,8 +14,8 @@ func errCheck(err error) {
 
 func main() {
 	errCheck(db.Init())
-	persistent.PersisteChatsQueue()
-	persistent.PersisteMessagesQueue()
+	go persistent.PersisteChatsQueue()
+	go persistent.PersisteMessagesQueue()
 	api.Init()
 	api.Serve()
 }
