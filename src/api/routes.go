@@ -3,6 +3,8 @@ package api
 import (
 	"log"
 
+	"go-chat-service/src/config"
+
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -14,5 +16,5 @@ func Init() {
 }
 
 func Serve() {
-	log.Fatalln(app.Listen(":8000"))
+	log.Fatalln(app.Listen(":" + config.GetEnv("PORT", ":8000")))
 }
