@@ -8,8 +8,6 @@ import (
 
 func checkHealth(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(
-		struct {
-			up string
-		}{up: "ok"},
+		fiber.Map{"up": "ok"},
 	)
 }

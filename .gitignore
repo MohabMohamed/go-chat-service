@@ -20,7 +20,7 @@
 /Godeps/
 
 # dotenv environment variables file
-dev.env
+development.env
 test.env
-prod.env
+production.env
 /tmp/

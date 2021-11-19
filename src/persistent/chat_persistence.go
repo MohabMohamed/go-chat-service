@@ -12,7 +12,7 @@ type chatQueue struct {
 	chats []*models.Chat
 }
 
-var chatQueueInstance *chatQueue
+var chatQueueInstance chatQueue
 
 func PersisteChat(chat *models.Chat, app_id int) {
 	chatQueueInstance.Lock()

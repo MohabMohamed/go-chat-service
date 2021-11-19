@@ -12,7 +12,7 @@ type messageQueue struct {
 	messages []*models.Message
 }
 
-var messageQueueInstance *messageQueue
+var messageQueueInstance messageQueue
 
 func PersisteMessage(message *models.Message, chat_id int) {
 	messageQueueInstance.Lock()
