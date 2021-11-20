@@ -1,9 +1,11 @@
 package models
 
-import "gorm.io/gorm"
+import "time"
 
 type Chat struct {
-	gorm.Model
+	ID            uint `gorm:"primaryKey"`
+	CreatedAt     time.Time
+	UpdatedAt     time.Time
 	PerAppId      int
 	MessageCount  int
 	ApplicationId uint

@@ -1,6 +1,7 @@
 package persistent
 
 import (
+	"go-chat-service/src/config"
 	"go-chat-service/src/db"
 	"go-chat-service/src/models"
 	"sync"
@@ -14,27 +15,20 @@ type chatQueue struct {
 
 var chatQueueInstance chatQueue
 
-func PersisteChat(chat *models.Chat, app_id int) {
+func PersisteChat(chat *models.Chat) {
 	chatQueueInstance.Lock()
 	defer chatQueueInstance.Unlock()
-	max_id := 0
-	if len(chatQueueInstance.chats) == 0 {
-
-		db.DbInstance.Model(&models.Chat{}).Select("MAX(per_app_id)").
-			Where("application_id = ?", app_id).Group("application_id").First(&max_id)
-		chat.PerAppId = max_id + 1
-	}
 	chatQueueInstance.chats = append(chatQueueInstance.chats, chat)
 }
 
 func PersisteChatsQueue() {
-	for range time.Tick(time.Minute * 2) {
+	for range time.Tick(config.TimeInSecToPersist) {
 		chatQueueInstance.Lock()
-		defer chatQueueInstance.Unlock()
 
 		if len(chatQueueInstance.chats) > 0 {
 			db.DbInstance.Model(&models.Chat{}).CreateInBatches(chatQueueInstance.chats, 2000)
 			chatQueueInstance.chats = nil
 		}
+		chatQueueInstance.Unlock()
 	}
 }

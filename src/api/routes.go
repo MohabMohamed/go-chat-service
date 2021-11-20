@@ -17,6 +17,8 @@ func Init() {
 
 	v1.Get("/health", checkHealth)
 
+	v1.Post("/applications/:application_token/chats", AddChat)
+
 }
 
 func Serve() {

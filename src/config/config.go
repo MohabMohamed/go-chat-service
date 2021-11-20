@@ -1,6 +1,10 @@
 package config
 
-import "os"
+import (
+	"os"
+	"strconv"
+	"time"
+)
 
 func GetEnv(key, defaultValue string) string {
 	value := os.Getenv(key)
@@ -8,4 +12,12 @@ func GetEnv(key, defaultValue string) string {
 		return defaultValue
 	}
 	return value
+}
+
+var TimeInSecToPersist time.Duration
+
+func Init() {
+	timeInSeconds, _ := strconv.Atoi(GetEnv("PERSIST_TIME_IN_SEC", "5"))
+	TimeInSecToPersist = time.Duration(time.Second * time.Duration(timeInSeconds))
+
 }
