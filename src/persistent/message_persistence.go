@@ -10,15 +10,15 @@ import (
 
 type messageQueue struct {
 	sync.Mutex
-	messages []*models.Message
+	messages []models.Message
 }
 
 var messageQueueInstance messageQueue
 
-func PersisteMessage(message *models.Message, chat_id int) {
+func PersisteMessage(message *models.Message) {
 	messageQueueInstance.Lock()
 	defer messageQueueInstance.Unlock()
-	messageQueueInstance.messages = append(messageQueueInstance.messages, message)
+	messageQueueInstance.messages = append(messageQueueInstance.messages, *message)
 }
 
 func PersisteMessagesQueue() {
@@ -30,6 +30,6 @@ func PersisteMessagesQueue() {
 			messageQueueInstance.messages = nil
 
 		}
-		defer messageQueueInstance.Unlock()
+		messageQueueInstance.Unlock()
 	}
 }
