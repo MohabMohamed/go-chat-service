@@ -15,16 +15,18 @@ type Message struct {
 }
 
 type IndexedMessage struct {
-	Id   uint   `json:"id"`
-	Body string `json:"body"`
+	Id     uint   `json:"id"`
+	ChatId uint   `json:"chat_id"`
+	Body   string `json:"body"`
 }
 
 var message Message
 
 func IndexMessage(messageInstance *models.Message) error {
 	body := &IndexedMessage{
-		Id:   messageInstance.ID,
-		Body: messageInstance.Body,
+		Id:     messageInstance.ID,
+		ChatId: messageInstance.ChatId,
+		Body:   messageInstance.Body,
 	}
 	var buf bytes.Buffer
 	if err := json.NewEncoder(&buf).Encode(body); err != nil {
