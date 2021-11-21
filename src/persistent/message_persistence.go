@@ -6,6 +6,8 @@ import (
 	"go-chat-service/src/models"
 	"sync"
 	"time"
+
+	"go-chat-service/src/elasticsearch"
 )
 
 type messageQueue struct {
@@ -27,6 +29,9 @@ func PersisteMessagesQueue() {
 
 		if len(messageQueueInstance.messages) > 0 {
 			db.DbInstance.Model(&models.Message{}).CreateInBatches(messageQueueInstance.messages, 2000)
+			for _, message := range messageQueueInstance.messages {
+				elasticsearch.IndexMessage(&message)
+			}
 			messageQueueInstance.messages = nil
 
 		}
