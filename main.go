@@ -4,6 +4,7 @@ import (
 	"go-chat-service/src/api"
 	"go-chat-service/src/config"
 	"go-chat-service/src/db"
+	"go-chat-service/src/elasticsearch"
 	"go-chat-service/src/persistent"
 )
 
@@ -18,6 +19,7 @@ func main() {
 	errCheck(db.Init())
 	go persistent.PersisteChatsQueue()
 	go persistent.PersisteMessagesQueue()
+	elasticsearch.Init()
 	api.Init()
 	api.Serve()
 }
